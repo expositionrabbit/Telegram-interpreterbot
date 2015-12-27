@@ -1,0 +1,14 @@
+{
+	"botName" : "@BotName",
+	"botToken" : "some token",
+	"expirationSeconds" : 1000,
+	"codeRunTimeoutMs" : 1000,
+	"commands" : {
+		"foolang" : "java -jar /home/foo/interpreters/foolang.jar",
+		"bar" : "bar -c someconfigthing"
+	},
+	"init" : {
+		"foolang" : "scary_io = null;"
+		"bar" : "scaryIo := nil"
+	}
+}
