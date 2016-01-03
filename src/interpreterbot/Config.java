@@ -23,7 +23,6 @@ public final class Config {
 				@JsonProperty("botToken") String botToken,
 				@JsonProperty("expirationSeconds") long expirationSeconds,
 				@JsonProperty("codeRunTimeoutMs") long codeRunTimeoutMs,
-				@JsonProperty("outputSendTimeoutMs") long outputSendTimeoutMs,
 				@JsonProperty("commands") Map<String, String> commands,
 				@JsonProperty("init") Map<String, String> init
 			) {

@@ -18,6 +18,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.TelegramBotAdapter;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 
 public class InterpreterBot {
@@ -113,11 +114,11 @@ public class InterpreterBot {
 				if(text.startsWith(invoke)) {
 					String code = "";
 					
-					if(text.startsWith(invokeWithName)) {
-						code = text.substring(invokeWithName.length());
-					} else {
-						code = text.substring((invoke).length());
-					}
+					if(text.matches(invokeWithName + "\\s" + ".+")) {
+						code = text.substring(invokeWithName.length()).trim();
+					} else if(text.matches(invoke + "\\s" + ".+")) {
+						code = text.substring((invoke).length()).trim();
+					} else { continue; }
 					
 					runCode(code, config.init.get(command), config.commands.get(command), msg.chat().id());
 				}
@@ -142,7 +143,8 @@ public class InterpreterBot {
 		Tasks.run(new Task<Void>(() -> {
 			String output = resultFuture.get();
 			for(String substring : splitMessageToChunks(output)) {
-				bot.sendMessage(chatId, substring, null, null, null, null);
+				substring = "```\n" + substring + "```";
+				bot.sendMessage(chatId, substring, ParseMode.Markdown, null, null, null);
 			}
 			return null;
 		},
@@ -161,7 +163,7 @@ public class InterpreterBot {
 		List<String> strings = new ArrayList<>();
 		
 		int lastIndex = 0;
-		for(int i = 4096; i < string.length(); i+=4096) {
+		for(int i = 4096; i < string.length(); i+=4090) {
 			strings.add(string.substring(lastIndex, i));
 			lastIndex = i;
 		}
